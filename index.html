@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CrimeLens — Community Crime Monitoring</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+
+<!-- NOISE OVERLAY -->
+<div class="noise"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <div class="logo" onclick="showPage('home')">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">CRIME<span>LENS</span></span>
+    </div>
+    <ul class="nav-links">
+      <li><a onclick="showPage('home')" class="nav-link active" data-page="home">Home</a></li>
+      <li><a onclick="showPage('report')" class="nav-link" data-page="report">Report</a></li>
+      <li><a onclick="showPage('analytics')" class="nav-link" data-page="analytics">Analytics</a></li>
+      <li><a onclick="showPage('chatbot')" class="nav-link" data-page="chatbot">AI Assist</a></li>
+    </ul>
+    <button class="report-btn" onclick="showPage('report')">+ Report Crime</button>
+    <button class="hamburger" id="hamburger">&#9776;</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a onclick="showPage('home');closeMobile()">Home</a>
+    <a onclick="showPage('report');closeMobile()">Report</a>
+    <a onclick="showPage('analytics');closeMobile()">Analytics</a>
+    <a onclick="showPage('chatbot');closeMobile()">AI Assist</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE: HOME -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="grid-lines"></div>
+      <div class="pulse-ring r1"></div>
+      <div class="pulse-ring r2"></div>
+      <div class="pulse-ring r3"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">⚠ COMMUNITY SAFETY NETWORK</div>
+      <h1 class="hero-title">
+        CRIME<br/><span class="red">LENS</span>
+      </h1>
+      <p class="hero-sub">Intelligent crime monitoring & community-driven reporting platform powered by AI analysis and real-time data visualization.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('report')">Report Incident</button>
+        <button class="btn-ghost" onclick="showPage('analytics')">View Analytics</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num" data-target="1247">0</span><span class="stat-label">Reports Filed</span></div>
+        <div class="stat-div"></div>
+        <div class="stat"><span class="stat-num" data-target="38">0</span><span class="stat-label">Areas Covered</span></div>
+        <div class="stat-div"></div>
+        <div class="stat"><span class="stat-num" data-target="94">0</span><span class="stat-label">% Response Rate</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="radar-wrap">
+        <div class="radar-screen">
+          <div class="radar-sweep"></div>
+          <div class="radar-ring"></div>
+          <div class="radar-ring r2"></div>
+          <div class="radar-ring r3"></div>
+          <div class="radar-dot" style="top:30%;left:55%"></div>
+          <div class="radar-dot" style="top:55%;left:30%"></div>
+          <div class="radar-dot" style="top:65%;left:65%"></div>
+          <div class="radar-dot" style="top:25%;left:35%"></div>
+          <div class="radar-crosshair h"></div>
+          <div class="radar-crosshair v"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <div class="section-label">// CORE CAPABILITIES</div>
+    <h2 class="section-title">How <span class="red">CrimeLens</span> Works</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feat-icon">📝</div>
+        <h3>Smart Reporting</h3>
+        <p>Submit crime reports with text descriptions and image evidence. Our system structures your data for analysis.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">🧠</div>
+        <h3>AI Classification</h3>
+        <p>BERT model analyzes textual reports to classify crime category and severity based on contextual intent.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">📊</div>
+        <h3>Live Analytics</h3>
+        <p>Area-wise crime analytics, type distribution, regional trends and dynamic safety indicators.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">🤖</div>
+        <h3>AI Chatbot</h3>
+        <p>Intent-based AI assistant for real-time guidance, procedural help and emergency helpline access.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALERT TICKER -->
+  <section class="ticker-section">
+    <div class="ticker-label">⚠ LIVE ALERTS</div>
+    <div class="ticker-wrap">
+      <div class="ticker-track">
+        <span>Theft reported — Anna Nagar &nbsp;•&nbsp;</span>
+        <span>Suspicious activity — T. Nagar &nbsp;•&nbsp;</span>
+        <span>Vandalism — Adyar &nbsp;•&nbsp;</span>
+        <span>Assault reported — Velachery &nbsp;•&nbsp;</span>
+        <span>Chain snatching — Tambaram &nbsp;•&nbsp;</span>
+        <span>Burglary — Porur &nbsp;•&nbsp;</span>
+        <span>Theft reported — Anna Nagar &nbsp;•&nbsp;</span>
+        <span>Suspicious activity — T. Nagar &nbsp;•&nbsp;</span>
+        <span>Vandalism — Adyar &nbsp;•&nbsp;</span>
+        <span>Assault reported — Velachery &nbsp;•&nbsp;</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMERGENCY QUICK ACCESS -->
+  <section class="emergency-strip">
+    <div class="es-title">🚨 EMERGENCY CONTACTS</div>
+    <div class="es-grid">
+      <a href="tel:100" class="es-card"><span class="es-num">100</span><span class="es-name">Police</span></a>
+      <a href="tel:101" class="es-card"><span class="es-num">101</span><span class="es-name">Fire</span></a>
+      <a href="tel:108" class="es-card"><span class="es-num">108</span><span class="es-name">Ambulance</span></a>
+      <a href="tel:1091" class="es-card"><span class="es-num">1091</span><span class="es-name">Women Helpline</span></a>
+      <a href="tel:1098" class="es-card"><span class="es-num">1098</span><span class="es-name">Child Helpline</span></a>
+      <a href="tel:112" class="es-card"><span class="es-num">112</span><span class="es-name">Emergency</span></a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">⬡ CRIMELENS</div>
+      <p>Community-driven crime monitoring for a safer society.</p>
+      <p class="footer-copy">© 2025 CrimeLens. Built with HTML · CSS · JS · Google Sheets</p>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE: REPORT -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="page-report" class="page">
+  <div class="page-header">
+    <div class="section-label">// INCIDENT REPORTING</div>
+    <h2>Submit Crime <span class="red">Report</span></h2>
+    <p>All reports are securely stored and analyzed. Your identity is protected.</p>
+  </div>
+
+  <div class="form-container">
+    <div class="form-card" id="reportFormCard">
+      <div class="form-top-bar"></div>
+      <form id="crimeForm" novalidate>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email Address <span class="req">*</span></label>
+            <input type="email" id="email" placeholder="you@example.com"/>
+            <span class="err-msg" id="emailErr">Please enter a valid email.</span>
+          </div>
+          <div class="form-group">
+            <label>Crime Type <span class="req">*</span></label>
+            <select id="crimeType">
+              <option value="">— Select Type —</option>
+              <option>Theft</option>
+              <option>Assault</option>
+              <option>Burglary</option>
+              <option>Vandalism</option>
+              <option>Chain Snatching</option>
+              <option>Cyber Crime</option>
+              <option>Harassment</option>
+              <option>Suspicious Activity</option>
+              <option>Other</option>
+            </select>
+            <span class="err-msg" id="crimeTypeErr">Please select a crime type.</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Location / Area <span class="req">*</span></label>
+            <input type="text" id="location" placeholder="e.g. Anna Nagar, Chennai"/>
+            <span class="err-msg" id="locationErr">Please enter the location.</span>
+          </div>
+          <div class="form-group">
+            <label>Date & Time <span class="req">*</span></label>
+            <input type="datetime-local" id="datetime"/>
+            <span class="err-msg" id="datetimeErr">Please select date and time.</span>
+          </div>
+        </div>
+
+        <div class="form-group full">
+          <label>Incident Description <span class="req">*</span></label>
+          <textarea id="description" rows="5" placeholder="Describe the incident in detail — what happened, who was involved, any identifying information..."></textarea>
+          <span class="err-msg" id="descriptionErr">Please provide a description (min 20 characters).</span>
+        </div>
+
+        <div class="form-group full">
+          <label>Upload Evidence Image <span class="optional">(optional)</span></label>
+          <div class="file-drop" id="fileDrop" onclick="document.getElementById('imageInput').click()">
+            <div class="file-drop-icon">📷</div>
+            <div class="file-drop-text">Click or drag image here</div>
+            <div class="file-drop-sub">JPG, PNG, WEBP — Max 5MB</div>
+            <input type="file" id="imageInput" accept="image/*" hidden/>
+          </div>
+          <div class="file-preview" id="filePreview" style="display:none">
+            <img id="previewImg" src="" alt="preview"/>
+            <button type="button" class="remove-file" onclick="removeFile()">✕ Remove</button>
+          </div>
+        </div>
+
+        <div class="severity-row">
+          <label>Perceived Severity</label>
+          <div class="severity-btns">
+            <button type="button" class="sev-btn" data-val="Low">Low</button>
+            <button type="button" class="sev-btn active" data-val="Medium">Medium</button>
+            <button type="button" class="sev-btn" data-val="High">High</button>
+            <button type="button" class="sev-btn critical" data-val="Critical">Critical</button>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <span class="btn-text">Submit Report</span>
+          <span class="btn-spinner"></span>
+        </button>
+      </form>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div class="success-card" id="successCard" style="display:none">
+      <div class="success-icon">✓</div>
+      <h3>Report Submitted!</h3>
+      <p>Your report has been securely recorded and will be analyzed. Thank you for keeping your community safe.</p>
+      <div class="report-id">Report ID: <span id="reportId"></span></div>
+      <button class="btn-primary" onclick="resetForm()">Submit Another Report</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE: ANALYTICS -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="page-analytics" class="page">
+  <div class="page-header">
+    <div class="section-label">// CRIME INTELLIGENCE</div>
+    <h2>Analytics <span class="red">Dashboard</span></h2>
+    <p>Click any district on the map to filter all analytics for that area.</p>
+  </div>
+
+  <!-- SUMMARY CARDS -->
+  <div class="analytics-summary">
+    <div class="summary-card">
+      <div class="sum-icon red-bg">🚨</div>
+      <div><div class="sum-num" id="sumTotal">1,247</div><div class="sum-label">Total Reports</div></div>
+    </div>
+    <div class="summary-card">
+      <div class="sum-icon orange-bg">📍</div>
+      <div><div class="sum-num" id="sumAreas">38</div><div class="sum-label">Areas Monitored</div></div>
+    </div>
+    <div class="summary-card">
+      <div class="sum-icon yellow-bg">⚡</div>
+      <div><div class="sum-num" id="sumMonth">89</div><div class="sum-label">This Month</div></div>
+    </div>
+    <div class="summary-card">
+      <div class="sum-icon green-bg">✅</div>
+      <div><div class="sum-num" id="sumResolved">72%</div><div class="sum-label">Resolved</div></div>
+    </div>
+  </div>
+
+  <!-- MAP + DISTRICT PANEL -->
+  <div class="map-section">
+    <div class="map-panel">
+      <div class="map-header">
+        <div class="chart-title">🗺 Tamil Nadu — Crime Map</div>
+        <div class="map-legend">
+          <span class="leg-item"><span class="leg-dot high"></span>High</span>
+          <span class="leg-item"><span class="leg-dot med"></span>Medium</span>
+          <span class="leg-item"><span class="leg-dot low"></span>Low</span>
+        </div>
+      </div>
+      <div id="tnMap"></div>
+      <div class="map-hint">📍 Click a district marker to filter analytics</div>
+    </div>
+    <div class="district-panel">
+      <div class="chart-title">Districts</div>
+      <div class="district-search-wrap">
+        <input type="text" id="districtSearch" placeholder="Search district..." oninput="filterDistrictList(this.value)"/>
+      </div>
+      <div class="district-list" id="districtList"></div>
+    </div>
+  </div>
+
+  <!-- SELECTED DISTRICT BANNER -->
+  <div class="district-banner" id="districtBanner" style="display:none">
+    <div class="db-left">
+      <span class="db-label">VIEWING DISTRICT</span>
+      <span class="db-name" id="dbName"></span>
+    </div>
+    <div class="db-stats" id="dbStats"></div>
+    <button class="db-clear" onclick="clearDistrictFilter()">✕ Show All Districts</button>
+  </div>
+
+  <!-- AREA SAFETY PANEL — shown when district selected -->
+  <div class="area-safety-section" id="areaSafetySection" style="display:none">
+    <div class="area-safety-inner">
+      <div class="as-header">
+        <div>
+          <div class="section-label">// TOP 5 AREAS IN <span id="asPanelDistrict"></span></div>
+          <div class="as-subtitle">Crime rate & safety verdict for key places</div>
+        </div>
+        <div class="as-legend">
+          <span><span class="as-dot safe"></span>Safe to visit</span>
+          <span><span class="as-dot caution"></span>Use caution</span>
+          <span><span class="as-dot danger"></span>High risk</span>
+        </div>
+      </div>
+      <div class="area-cards" id="areaCards"></div>
+    </div>
+  </div>
+
+  <!-- CHARTS ROW 1 -->
+  <div class="charts-row">
+    <div class="chart-card wide">
+      <div class="chart-title" id="trendTitle">Monthly Crime Trends — All Tamil Nadu</div>
+      <canvas id="trendChart" height="100"></canvas>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title" id="typeTitle">Crime Type Distribution</div>
+      <canvas id="typeChart" height="220"></canvas>
+    </div>
+  </div>
+
+  <!-- CHARTS ROW 2 -->
+  <div class="charts-row">
+    <div class="chart-card">
+      <div class="chart-title" id="areaTitle">Top Crime Areas</div>
+      <canvas id="areaChart" height="220"></canvas>
+    </div>
+    <div class="chart-card wide">
+      <div class="chart-title">Area Safety Indicators</div>
+      <div class="safety-grid" id="safetyGrid"></div>
+    </div>
+  </div>
+
+  <!-- HEATMAP TABLE -->
+  <div class="heatmap-outer">
+    <div class="chart-card">
+      <div class="chart-title" id="heatTitle">Area × Crime Type Heatmap — All Tamil Nadu</div>
+      <div class="heatmap-wrap" id="heatmapWrap"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PAGE: CHATBOT -->
+<!-- ═══════════════════════════════════════════════ -->
+<div id="page-chatbot" class="page">
+  <div class="page-header">
+    <div class="section-label">// AI ASSISTANCE</div>
+    <h2>CrimeLens <span class="red">AI Assistant</span></h2>
+    <p>Get real-time guidance, procedural help and emergency support.</p>
+  </div>
+
+  <div class="chatbot-layout">
+    <div class="chat-main">
+      <div class="chat-window" id="chatWindow">
+        <div class="chat-msg bot">
+          <div class="msg-avatar">🤖</div>
+          <div class="msg-bubble">
+            <p>Hello! I'm the <strong>CrimeLens AI Assistant</strong>. I can help you with:</p>
+            <ul>
+              <li>How to file a crime report</li>
+              <li>Understanding crime categories</li>
+              <li>Safety tips and precautions</li>
+              <li>Emergency contact information</li>
+              <li>General crime awareness guidance</li>
+            </ul>
+            <p>How can I assist you today?</p>
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-row">
+        <div class="quick-prompts">
+          <button onclick="sendQuick('How do I report a crime?')">How to report?</button>
+          <button onclick="sendQuick('What are safety tips for night travel?')">Safety tips</button>
+          <button onclick="sendQuick('What crimes are most common in my area?')">Common crimes</button>
+          <button onclick="sendQuick('What should I do if I witness a crime?')">Witness a crime</button>
+        </div>
+        <div class="chat-input-wrap">
+          <input type="text" id="chatInput" placeholder="Ask anything about crime safety..." onkeydown="if(event.key==='Enter') sendMessage()"/>
+          <button class="send-btn" onclick="sendMessage()">➤</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMERGENCY PANEL -->
+    <div class="emergency-panel">
+      <div class="ep-title">🚨 EMERGENCY HELPLINES</div>
+      <div class="ep-list">
+        <a href="tel:112" class="ep-card red"><span class="ep-num">112</span><span class="ep-name">National Emergency</span><span class="ep-call">TAP TO CALL</span></a>
+        <a href="tel:100" class="ep-card"><span class="ep-num">100</span><span class="ep-name">Police Control Room</span><span class="ep-call">TAP TO CALL</span></a>
+        <a href="tel:101" class="ep-card"><span class="ep-num">101</span><span class="ep-name">Fire & Rescue</span><span class="ep-call">TAP TO CALL</span></a>
+        <a href="tel:108" class="ep-card"><span class="ep-num">108</span><span class="ep-name">Ambulance</span><span class="ep-call">TAP TO CALL</span></a>
+        <a href="tel:1091" class="ep-card"><span class="ep-num">1091</span><span class="ep-name">Women Helpline</span><span class="ep-call">TAP TO CALL</span></a>
+        <a href="tel:1098" class="ep-card"><span class="ep-num">1098</span><span class="ep-name">Child Helpline</span><span class="ep-call">TAP TO CALL</span></a>
+        <a href="tel:1930" class="ep-card"><span class="ep-num">1930</span><span class="ep-name">Cyber Crime</span><span class="ep-call">TAP TO CALL</span></a>
+        <a href="tel:14567" class="ep-card"><span class="ep-num">14567</span><span class="ep-name">Senior Citizen</span><span class="ep-call">TAP TO CALL</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
