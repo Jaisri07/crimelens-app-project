@@ -1,6 +1,6 @@
 flask
 flask-cors
+pillow
 transformers
 torch
 torchvision
-pillow
